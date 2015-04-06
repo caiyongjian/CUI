@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="base">
+      <UniqueIdentifier>{c17a1483-3d62-40c6-b988-3d13922e8b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{37b7aec7-5296-4d37-8dbe-b513cbfde08a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="base\cwindow.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\helper.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="base\cwindow.cc">
+      <Filter>base</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

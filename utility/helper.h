@@ -1,9 +1,10 @@
 #ifndef _UTILITY_HELPER_H__
 #define _UTILITY_HELPER_H__
+#include "../base/basic_defines.h"
 
 #define CUI_CLASS_NAME(theClass, classname)               \
 public:                                                   \
-  static LPCWSTR GetClassName()                           \
+  static LPCTSTR GetClassName()                           \
   {                                                       \
     return classname;                                     \
   }                                                       \
@@ -67,11 +68,12 @@ public: \
 #define CUI_END_MSG_MAP() \
     break; \
   default: \
-    printf("Invalid message map ID (%i)\n", dwMsgMapID); \
-	  ATLASSERT(FALSE); \
+    CUIASSERT(FALSE); \
     break; \
   }\
   return FALSE; \
 }
+
+HMODULE GetModuleFromAddress(void* address);
 
 #endif//_UTILITY_HELPER_H__

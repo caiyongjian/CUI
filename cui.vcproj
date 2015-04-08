@@ -187,6 +187,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\utility\memory.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\utility\memory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\utility\rect.cc"
 				>
 			</File>
@@ -196,6 +204,10 @@
 			</File>
 			<File
 				RelativePath=".\utility\size.h"
+				>
+			</File>
+			<File
+				RelativePath=".\utility\tstring.h"
 				>
 			</File>
 		</Filter>

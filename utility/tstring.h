@@ -233,8 +233,51 @@ namespace cui
     }
   };
 
-  
-  class SStringT
+  static int _tstr_rgInitData[] = { -1, 0, 0, 0, 0, 0, 0, 0 };
+  TStringData* _tstr_initDataNil = (TStringData*)&_tstr_rgInitData;
+  const void* _tstr_initPszNil = (const void*)(((unsigned char*)&_tstr_rgInitData) + sizeof(TStringData));
+
+  template<class tchar, class tchar_traits>
+  class TStringT
+  {
+  public:
+    typedef tchar _tchar;
+    typedef const _tchar* pctchar;
+    typedef tchar_traits _tchar_traits;
+
+    _tchar* m_pszData;
+
+    TStringT()
+    {
+      Init();
+    }
+
+    void Init()
+    {
+      m_pszData = (pctchar)_tstr_initPszNil;
+    }
+
+    TStringData* GetData()
+    {
+      return (TStringData*)m_pszData;
+    }
+
+    TStringT(const TStringT& other)
+    {
+      CUIASSERT(other.GetData()->nRef != 0);
+      if (other.GetData()->nRef >= 0)
+      {
+        other.GetData()->AddRef();
+        m_pszData = other.m_pszData;
+      }
+      else
+      {
+        Init();
+        *this = other.m_pszData;
+      }
+    }
+
+  };
 
 
 

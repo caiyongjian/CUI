@@ -137,6 +137,11 @@ namespace cui
       return psz + 1;
     }
 
+    static P_TYPE NoneSafeStrCpy(P_TYPE pdst, P_TYPE pSrc, int nLen)
+    {
+      ::memcpy(pdst, pSrc, nLen * sizeof(_TYPE));
+    }
+
     static int Format(PP_TYPE ppszDst, CP_TYPE pszFormat, va_list args)
     {
       int len = ::_vscprintf( pszFormat, args ); // _vscprintf doesn't count terminating '\0'
@@ -223,6 +228,11 @@ namespace cui
       return psz + 1;
     }
 
+    static P_TYPE NoneSafeStrCpy(P_TYPE pdst, P_TYPE pSrc, int nLen)
+    {
+      ::memcpy(pdst, pSrc, nLen * sizeof(_TYPE));
+    }
+
     static int Format(PP_TYPE ppszDst, CP_TYPE pszFormat, va_list args)
     {
       int len = ::_vscwprintf( pszFormat, args ); // _vscprintf doesn't count terminating '\0'
@@ -259,7 +269,7 @@ namespace cui
 
     TStringData* GetData()
     {
-      return (TStringData*)m_pszData;
+      return ((TStringData*)m_pszData) - 1;
     }
 
     TStringT(const TStringT& other)
@@ -276,6 +286,137 @@ namespace cui
         *this = other.m_pszData;
       }
     }
+
+    TStringT(tchar ch, int nLength = 1)
+    {
+      Init();
+      if (nLength >= 1)
+      {
+        if (AllocBuffer(nLength))
+        {
+          for (int i = 0; i < nLength; i++)
+          {
+            m_pszData[i] = ch;
+          }
+        }
+      }
+    }
+
+    int SafeLen(const tchar* psz)
+    {
+      return psz ? (int)tchar_traits::StrLen(psz) : 0;
+    }
+
+    TStringT(const tchar* psz, int nLength)
+    {
+      Init();
+      if (nLength <0)
+      {
+        nLength = SafeLen(psz);
+      }
+      if (nLength > 0)
+      {
+        if (AllocBuffer(nLength))
+        {
+          tchar_traits::NoneSafeStrCpy(m_pszData, psz, nLength);
+        }
+      }
+    }
+
+    TStringT(const tchar* psz)
+    {
+      Init();
+      int nLen = SafeLen(psz);
+      if (nLen > 0)
+      {
+        if (AllocBuffer(nLen))
+        {
+          char_traits::NoneSafeStrCpy(m_pszData, psz, nLen);
+        }
+      }
+    }
+
+    ~TStringT()
+    {
+      TStringData* pdata = GetData();
+      if (pdata != _tstr_initDataNil)
+      {
+        cui::CuiFree(pdata);
+      }
+    }
+
+    int GetLength() const
+    {
+      return GetData()->nDataLen;
+    }
+
+    bool IsEmpty() const
+    {
+      return GetData()->nDataLen == 0;   
+    }
+
+    void Empty()
+    {
+      TStringData* pData = GetData();
+      if (pData->nDataLen == 0)
+      {
+        return;
+      }
+      Relase();
+    }
+
+    void Relase()
+    {
+      TStringData* pData = GetData();
+      if (pData != _tstr_initDataNil)
+      {
+        CUIASSERT(pData->nRef >= 1);
+        pData->Release();
+        Init();
+      }
+    }
+
+    bool AllocBuffer(int nLen)
+    {
+      TStringData* pdata = AllocData(nLen);
+      if (pdata)
+      {
+        m_pszData = pdata->data();
+        return true;
+      }
+      
+      return false;
+    }
+
+    TStringData* AllocData(int nLen, TStringData* pOld = NULL)
+    {
+      CUIASSERT(nLen >= 1);
+      int malloc_len = sizeof(TStringData) + (nLen + 1) * sizeof(tchar);
+
+      TStringData* pNew = NULL;
+      if (pOld)
+      {
+        pNew = cui::CuiRealloc(pOld, malloc_len);
+      }
+      else
+      {
+        pNew = cui::CuiMalloc(malloc_len);
+      }
+      if (pNew == NULL)
+      {
+        NOREACHED();
+        return pNew;
+      }
+
+      pNew->nRef = 1;
+      pNew->nAllocLen = malloc_len;
+      pNew->nDataLen = nLen;
+
+      tchar* pch_data = pNew->data();
+      pch_data[0] = '\0';
+      return pNew;
+    }
+
 
   };
 

@@ -27,8 +27,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
   cui::CuiWindow cw;
 
   cw.set_style(WS_TILEDWINDOW);
-  cw.set_ex_style(WS_EX_TOPMOST);
-  cw.SetBounds(cui::Rect(0,0,100,100));
+  //cw.set_ex_style(WS_EX_TOPMOST);
+  cw.SetBounds(cui::Rect(0,0,500,500));
   cw.Init(NULL);
   cw.Show();
 

@@ -196,6 +196,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\bitmap2.bmp"
+			>
+		</File>
+		<File
 			RelativePath=".\demo.rc"
 			>
 		</File>

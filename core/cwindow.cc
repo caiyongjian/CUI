@@ -29,7 +29,7 @@ LRESULT CuiWindow::OnPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
   ::GetClientRect(hwnd_, &rc);
   cui::Rect rect(rc);
   HDC hMemdc = ::CreateCompatibleDC(hDc);
-  HBITMAP hBmp = ::LoadBitmap(NULL, MAKEINTRESOURCE(IDB_PNG1));
+  HBITMAP hBmp = ::LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP2));
   ::SelectObject(hMemdc, hBmp);
   BITMAPINFO bi = {0};
   bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -38,7 +38,7 @@ LRESULT CuiWindow::OnPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
            hMemdc, 0, 0, SRCCOPY);
 //   ::BitBlt(hDc, 0, 0, rect.width, rect.height,
 //     0, 0, bi.bmiHeader.biWidth, bi.bmiHeader.biHeight, hMemdc, )
-  return 0;
+  return 1;
 }
 
 LRESULT CuiWindow::OnEraseBkgnd(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
@@ -120,6 +120,9 @@ bool CuiWindow::Init(HWND hParent) {
 }
 
 LRESULT CuiWindow::StartWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  if (uMsg != WM_CREATE) {
+    return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
+  }
   CREATESTRUCT* pcs = reinterpret_cast<CREATESTRUCT*>(lParam);
   CuiWindow* pThis = reinterpret_cast<CuiWindow*>(pcs->lpCreateParams);
   pThis->hwnd_ = hWnd;

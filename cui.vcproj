@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\utility\tstring.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\utility\tstring.h"
 				>
 			</File>

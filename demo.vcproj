@@ -195,6 +195,22 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\demo.rc"
+			>
+		</File>
+		<File
+			RelativePath=".\resource.h"
+			>
+		</File>
+		<File
+			RelativePath=".\demo\res\skin_check_btn.png"
+			>
+		</File>
+		<File
+			RelativePath=".\demo\res\white_bg.png"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

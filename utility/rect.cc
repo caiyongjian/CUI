@@ -1,5 +1,7 @@
 #include "rect.h"
 
+#include <windows.h>
+
 namespace cui {
 
   Rect::Rect()
@@ -27,6 +29,14 @@ namespace cui {
     , height(other.height)
   {
 
+  }
+
+  Rect::Rect( const RECT& other )
+    : x(other.left)
+    , y(other.top)
+    , width(other.right - other.left)
+    , height(other.bottom - other.top)
+  {
   }
 
   Rect& Rect::operator=(const Rect& other)

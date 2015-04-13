@@ -1,4 +1,5 @@
 #include "cwindow.h"
+#include "../resource.h"
 namespace cui {
 
 CuiWindow* pLockedThis = NULL;
@@ -23,12 +24,38 @@ LRESULT CuiWindow::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHand
 LRESULT CuiWindow::OnPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
   bHandled = FALSE;
   //Paint Controls.
+  HDC hDc = ::GetDC(hwnd_);
+  RECT rc;
+  ::GetClientRect(hwnd_, &rc);
+  cui::Rect rect(rc);
+  HDC hMemdc = ::CreateCompatibleDC(hDc);
+  HBITMAP hBmp = ::LoadBitmap(NULL, MAKEINTRESOURCE(IDB_PNG1));
+  ::SelectObject(hMemdc, hBmp);
+  BITMAPINFO bi = {0};
+  bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+  ::GetDIBits(hMemdc, hBmp, 0, 0, 0, &bi, DIB_RGB_COLORS);
+  ::BitBlt(hDc, 0, 0, bi.bmiHeader.biWidth, bi.bmiHeader.biHeight,
+           hMemdc, 0, 0, SRCCOPY);
+//   ::BitBlt(hDc, 0, 0, rect.width, rect.height,
+//     0, 0, bi.bmiHeader.biWidth, bi.bmiHeader.biHeight, hMemdc, )
   return 0;
 }
 
 LRESULT CuiWindow::OnEraseBkgnd(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
   bHandled = FALSE;
   // Paint Backbround.
+  HDC hDc = ::GetDC(hwnd_);
+  RECT rc;
+  ::GetClientRect(hwnd_, &rc);
+  cui::Rect rect(rc);
+  HDC hMemdc = ::CreateCompatibleDC(hDc);
+  HBITMAP hBmp = ::LoadBitmap(NULL, MAKEINTRESOURCE(IDB_PNG2));
+  ::SelectObject(hMemdc, hBmp);
+  BITMAPINFO bi = {0};
+  bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+  ::GetDIBits(hMemdc, hBmp, 0, 0, 0, &bi, DIB_RGB_COLORS);
+  ::BitBlt(hDc, 0, 0, bi.bmiHeader.biWidth, bi.bmiHeader.biHeight,
+    hMemdc, 0, 0, SRCCOPY);
   return 0;
 }
 

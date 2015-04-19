@@ -15,14 +15,14 @@ namespace cui {
     CW_OWNER,
   } CW_CODE;
 
-class CuiWindow {
+class CWindowImpl {
 public:
-  CUI_CLASS_NAME(CuiWindow, L"cui_window")
+  CUI_CLASS_NAME(CWindowImpl, L"cui_window")
 
-  CuiWindow();
-  virtual ~CuiWindow();
+  CWindowImpl();
+  virtual ~CWindowImpl();
 
-  bool Init(HWND hParent);
+  bool Init(HWND hParent, const Rect& rect);
 
   HWND GetParent();
 
@@ -35,7 +35,7 @@ protected:
                                            WPARAM wParam, LPARAM lParam);
 public:
   HWND GetCuiWnd();
-  CuiWindow* GetWindow(int uCode);
+  CWindowImpl* GetWindow(int uCode);
 
   bool IsDisabled(BOOL bCheckParent=FALSE);
   void EnableWindow(BOOL bEnable, BOOL bUpdate= FALSE);
@@ -53,25 +53,28 @@ public:
 
   void Show();
 
-  CUI_BEGIN_MESSAGE_MAP(CuiWindow)
-    CUI_MESSAGE_HANDLER(WM_PAINT, OnPaint)
-    CUI_MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBkgnd)
-    CUI_MESSAGE_RANGE_HANDLER(WM_MOUSEFIRST, WM_MOUSELAST, OnMouseEvent)
-    CUI_MESSAGE_HANDLER(WM_CREATE, OnCreate)
-    CUI_MESSAGE_HANDLER(WM_CLOSE, OnClose)
+  CUI_BEGIN_MSG_MAP(CWindowImpl)
+    CUI_MSG_WM_PAINT(OnPaint)
+    CUI_MSG(WM_ERASEBKGND, OnEraseBkgnd)
+    CUI_MSG_RANGE(WM_MOUSEFIRST, WM_MOUSELAST, OnMouseEvent)
+    CUI_MSG(WM_CREATE, OnCreate)
+    CUI_MSG(WM_CLOSE, OnClose)
   CUI_END_MSG_MAP();
 
   LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
   LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-  LRESULT OnPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+  void OnPaint();
   LRESULT OnEraseBkgnd(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
   LRESULT OnMouseEvent(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
   cui::Rect GetWndRect();
   ATOM RegisterWindowClass(WNDPROC wndProc, LPCTSTR pszClassName);
 
 protected:
-  DWORD style_;
-  DWORD ex_style_;
+  uint32 style_;
+  uint32 ex_style_;
+  uint32 class_style_;
+
+  WindowDelegate* window_delegate_;
   cui::Rect rect_;
   HWND hwnd_;
 };

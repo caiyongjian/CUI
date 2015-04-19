@@ -162,6 +162,10 @@
 				RelativePath=".\base\basic_defines.h"
 				>
 			</File>
+			<File
+				RelativePath=".\base\macros.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="core"
@@ -174,10 +178,42 @@
 				RelativePath=".\core\cwindow.h"
 				>
 			</File>
+			<File
+				RelativePath=".\core\view.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\core\view.h"
+				>
+			</File>
+			<File
+				RelativePath=".\core\window_delegate.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\core\window_delegate.h"
+				>
+			</File>
+			<File
+				RelativePath=".\core\window_view.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\core\window_view.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="utility"
 			>
+			<File
+				RelativePath=".\utility\Bitmap.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\utility\Bitmap.h"
+				>
+			</File>
 			<File
 				RelativePath=".\utility\helper.h"
 				>
@@ -212,6 +248,30 @@
 			</File>
 			<File
 				RelativePath=".\utility\tstring.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="controls"
+			>
+			<File
+				RelativePath=".\controls\button.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\controls\button.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="render"
+			>
+			<File
+				RelativePath=".\render\render.cc"
+				>
+			</File>
+			<File
+				RelativePath=".\render\render.h"
 				>
 			</File>
 		</Filter>

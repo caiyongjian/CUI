@@ -18,7 +18,7 @@ public:                                                   \
     return false;                                         \
   }                                                       \
 
-#define CUI_BEGIN_MESSAGE_MAP(theClass) \
+#define CUI_BEGIN_MSG_MAP(theClass) \
 public: \
   BOOL ProcessWindowMessage(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, \
       _In_ LPARAM lParam, _Inout_ LRESULT& lResult, _In_ DWORD dwMsgMapID = 0) \
@@ -38,7 +38,7 @@ public: \
       break; \
       case msgMapID:
 
-#define CUI_MESSAGE_HANDLER(msg, func) \
+#define CUI_MSG(msg, func) \
   if (uMsg == msg) \
   { \
     bHandled = TRUE; \
@@ -47,7 +47,7 @@ public: \
       return TRUE; \
   }
 
-#define CUI_MESSAGE_RANGE_HANDLER(msgFirst, msgLast, func) \
+#define CUI_MSG_RANGE(msgFirst, msgLast, func) \
   if (uMsg >= msgFirst && uMsg <= msgLast) \
   { \
     bHandled = TRUE; \
@@ -56,13 +56,23 @@ public: \
       return TRUE; \
   }
 
-#define CUI_COMMAND_HANDLER(id, code, func) \
+#define CUI_CMD(id, code, func) \
   if (uMsg == WM_COMMAND && id == LOWORD(wParam) && code == HIWORD(wParam)) \
   { \
     bHandled = TRUE; \
     lResult = func(HIWORD(wParam), LOWORD(wParam), (HWND)lParam, bHandled); \
     if (bHandled) \
       return TRUE; \
+  }
+
+// void OnPaint()
+#define CUI_MSG_WM_PAINT(func) \
+  if (uMsg == WM_PAINT) { \
+    bHandled = TRUE; \
+    func(); \
+    if (bHandled) { \
+      return TRUE; \
+    } \
   }
 
 #define CUI_END_MSG_MAP() \

@@ -14,6 +14,8 @@ namespace cui {
     bool operator==(const Rect& other);
     bool operator!=(const Rect& other);
 
+    bool is_empty();
+
   public:
     int x;
     int y;

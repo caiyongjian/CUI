@@ -60,5 +60,11 @@ namespace cui {
   {
     return !(*this==other);
   }
+
+  bool Rect::is_empty()
+  {
+    return width == 0 && height == 0;
+  }
+
 }
 
